@@ -9,13 +9,12 @@ and prints the result to the terminal window.
 
 """
 
-def simple_calculator(operation: str, num1: float, num2: float) -> float:
+def simple_calculator(num1: float, num2: float) -> float:
     """
-    Function that takes in two numbers and an operation (add, subtract, multiply, divide),
-    then performs the operation on the two numbers and returns the result.
+    Function that takes in two numbers,
+    then prompts for an operation and performs the operation on the two numbers, returning the result.
 
     Args:
-        operation (str): The operation to perform ("add", "subtract", "multiply", "divide").
         num1 (float): The first number.
         num2 (float): The second number.
 
@@ -23,32 +22,48 @@ def simple_calculator(operation: str, num1: float, num2: float) -> float:
         float: The result of the operation.
     """
 
-    if operation == "add":
-        return num1 + num2
-    elif operation == "subtract":
-        return num1 - num2
-    elif operation == "multiply":
-        return num1 * num2
-    elif operation == "divide":
-        if num2 != 0:
-            return num1 / num2
-        else:
-            raise ValueError("Cannot divide by zero.")
-    else:
-        raise ValueError("Invalid operation. Please choose from 'add', 'subtract', 'multiply', or 'divide'.")
+    while True:
+        try:
+            operation = input("Enter the operation (add, subtract, multiply, divide): ").strip().lower()
+            if operation == "add":
+                print(f"The result of adding", end=" ")
+                return num1 + num2
+            elif operation == "subtract":
+                print(f"The result of subtracting", end=" ")
+                return num1 - num2
+            elif operation == "multiply":
+                print(f"The result of multiplying", end=" ")
+                return num1 * num2
+            elif operation == "divide":
+                if num2 != 0:
+                    print(f"The result of dividing", end=" ")
+                    return num1 / num2
+                else:
+                    raise ValueError("Cannot divide by zero.")
+            else:
+                raise ValueError("Invalid operation. Please choose from 'add', 'subtract', 'multiply', or 'divide'.")
+        except ValueError as v:
+            print(str(v))
+def ask_input_sanitized(strInput: str) -> float:
+    while True:
+        try:
+            number = float(input("Enter the " + strInput + ": "))
+            return number
+        except ValueError:
+            print("Invalid " + strInput + ". Please enter valid input")
 
 def main():
     
     print(f"===== Simple Calculator =====")
 
     # Ask the user for sample input    
-    num1 = float(input("Enter the first number: "))
-    num2 = float(input("Enter the second number: "))
-    operation = input("Enter the operation (add, subtract, multiply, divide): ").strip().lower()
+    num1 = ask_input_sanitized("first number")
+    num2 = ask_input_sanitized("second number")
 
     # Perform the calculation and display the result
-    result = simple_calculator(operation, num1, num2)
-    print(f"The result of {operation}ing {num1} and {num2} is: {result}")
+    result = simple_calculator(num1, num2)
+    print(f"{num1} and {num2} is {result}")
+
 
 
 if __name__ == "__main__":
